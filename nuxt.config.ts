@@ -9,9 +9,12 @@ export default defineNuxtConfig({
 		'@pinia/nuxt',
 		'@pinia-plugin-persistedstate/nuxt',
 		'@nuxtjs/eslint-module',
-		'@nuxtjs/tailwindcss',
-		'@nuxtjs/supabase'
+		'@nuxtjs/tailwindcss'
+		// '@nuxtjs/supabase'
 	],
+	build: {
+		transpile: ['pinia-plugin-persistedstate']
+	},
 	runtimeConfig: {
 		public: {
 			stripePk: process.env.STRIPE_PK_KEY
