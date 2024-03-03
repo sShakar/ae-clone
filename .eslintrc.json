@@ -1,0 +1,11 @@
+{
+	"plugins": ["nuxt"], // the same as "eslint-plugin-nuxt"
+	"extends": ["@nuxt", "plugin:prettier/recommended", "prettier"],
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"rules": {
+		"no-console": "warn"
+	}
+}
