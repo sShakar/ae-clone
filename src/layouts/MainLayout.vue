@@ -54,7 +54,7 @@
 		<div id="MainHeader" class="flex w-full items-center bg-white">
 			<div class="mx-auto flex w-full max-w-[1150px] justify-between gap-10 px-3 py-5 lg:justify-start">
 				<NuxtLink to="/" class="min-w-[170px]">
-					<img width="170" src="/AliExpress-logo.png" />
+					<img width="170" alt="" src="/AliExpress-logo.png" />
 				</NuxtLink>
 
 				<div class="hidden w-full max-w-[700px] md:block">
@@ -79,7 +79,7 @@
 									class="flex w-full cursor-pointer items-center justify-between hover:bg-gray-100"
 								>
 									<div class="flex items-center">
-										<img class="rounded-md" width="40" :src="item.url" />
+										<img class="rounded-md" alt="" width="40" :src="item.url" />
 										<div class="ml-2 truncate">{{ item.title }}</div>
 									</div>
 									<div class="truncate">${{ item.price / 100 }}</div>
@@ -110,14 +110,13 @@
 				</button>
 			</div>
 		</div>
+		<TheLoading v-if="userStore.isLoading" />
+
+		<div class="pt-[80px] md:pt-[130px] lg:pt-[150px]" />
+		<slot />
+
+		<TheFooter v-if="!userStore.isLoading" />
 	</div>
-
-	<Loading v-if="userStore.isLoading" />
-
-	<div class="pt-[80px] md:pt-[130px] lg:pt-[150px]" />
-	<slot />
-
-	<Footer v-if="!userStore.isLoading" />
 </template>
 
 <script setup>
@@ -145,9 +144,8 @@ watch(
 	async () => {
 		if (!searchItem.value) {
 			setTimeout(() => {
-				items.value = '';
+				items.value = null;
 				isSearching.value = false;
-				return;
 			}, 500);
 		}
 		searchByName();
