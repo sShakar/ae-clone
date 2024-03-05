@@ -29,7 +29,7 @@
 					</div>
 
 					<div id="Items" class="mt-4 rounded-lg bg-white p-4">
-						<div v-for="product in userStore.cart">
+						<div v-for="product in userStore.cart" :key="product">
 							<CartItem :product="product" :selected-array="selectedArray" @selected-radio="selectedRadioFunc" />
 						</div>
 					</div>
@@ -56,8 +56,8 @@
 					<div id="PaymentProtection" class="mt-4 rounded-lg bg-white p-4">
 						<div class="mb-2 text-lg font-semibold">Payment methods</div>
 						<div class="my-4 flex items-center justify-start gap-8">
-							<div v-for="card in cards">
-								<img class="h-6" :src="card" />
+							<div v-for="card in cards" :key="card">
+								<img alt="" class="h-6" :src="card" />
 							</div>
 						</div>
 
