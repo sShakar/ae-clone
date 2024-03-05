@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/userStore';
 const userStore = useUserStore();
 
 const props = defineProps(['product', 'selectedArray']);
