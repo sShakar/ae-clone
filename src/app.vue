@@ -1,10 +1,10 @@
 <template>
-	<div class="fixed z-[-1] h-[100vh] w-full bg-[#F2F2F2]" />
+	<div class="`z-[-1] w-full bg-[#F2F2F2]" />
 	<NuxtPage />
 
 	<MenuOverlay
 		:class="[
-			{ 'visible max-h-[100vh] transition-all duration-200 ease-in': userStore.isMenuOverlay },
+			{ 'visible transition-all duration-200 ease-in': userStore.isMenuOverlay },
 			{ 'invisible max-h-0 transition-all duration-200 ease-out': !userStore.isMenuOverlay }
 		]"
 	/>

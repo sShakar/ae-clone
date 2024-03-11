@@ -1,5 +1,5 @@
 <template>
-	<div id="MainLayout" class="fixed z-50 w-full">
+	<div id="MainLayout" class="z-50 w-full">
 		<div id="TopMenu" class="hidden w-full border-b bg-[#FAFAFA] md:block">
 			<ul class="flex h-10 max-w-[1200px] items-center justify-end bg-[#FAFAFA] px-2 text-xs font-light text-[#333333]">
 				<li class="cursor-pointer border-r border-r-gray-400 px-3 hover:text-[#FF4646]">Sell on AliExpress</li>
