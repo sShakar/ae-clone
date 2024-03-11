@@ -2,7 +2,7 @@
 	<div id="AuthPage" class="h-[100vh] w-full bg-white">
 		<div class="flex w-full items-center justify-center border-b border-b-gray-300 p-5">
 			<NuxtLink to="/" class="min-w-[170px]">
-				<img width="170" src="/AliExpress-logo.png" />
+				<img width="170" src="/AliExpress-logo.png" alt="" />
 			</NuxtLink>
 		</div>
 
@@ -21,7 +21,7 @@
 				class="mt-4 flex w-full items-center justify-center gap-3 rounded-full border p-1.5 text-lg font-semibold hover:bg-gray-100"
 				@click="login('github')"
 			>
-				<img class="w-full max-w-[30px]" src="/github-logo.png" />
+				<img class="w-full max-w-[30px]" src="/github-logo.png" alt="" />
 				<div>Github</div>
 			</button>
 		</div>
@@ -29,6 +29,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { Provider } from '@supabase/gotrue-js';
+
 const client = useSupabaseClient();
 const user = useSupabaseUser();
 
@@ -38,10 +40,10 @@ watchEffect(() => {
 	}
 });
 
-const login = async prov => {
-	const { data, error } = await client.auth.signInWithOAuth({
-		provider: prov,
-		redirectTo: window.location.origin
+const login = async (provider: Provider) => {
+	await client.auth.signInWithOAuth({
+		provider: provider,
+		options: { redirectTo: window.location.origin }
 	});
 };
 </script>

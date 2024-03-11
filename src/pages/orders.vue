@@ -6,18 +6,18 @@
 					<Icon name="carbon:delivery" color="#5FCB04" size="35" />
 					<span class="pl-4">Orders</span>
 				</div>
-				<div v-for="order in orders.data" v-if="orders && orders.data" class="pl-[50px] text-sm">
-					<div class="border-b py-1">
+				<div v-if="orders && orders.data" class="pl-[50px] text-sm">
+					<div v-for="order in orders.data" :key="order.id" class="border-b py-1">
 						<p>Stripe ID: {{ order.stripeId }}</p>
 
 						<div class="pt-2"></div>
 
-						<div v-for="item in order.orderItem">
+						<div v-for="item in order.orderItem" :key="item.id">
 							<NuxtLink
 								class="flex items-center gap-3 p-1 hover:text-blue-500 hover:underline"
 								:to="`/item/${item.productId}`"
 							>
-								<img width="40" :src="item.product.url" />
+								<img width="40" :src="item.product.url" alt="" />
 								{{ item.product.title }}
 							</NuxtLink>
 						</div>
@@ -36,16 +36,16 @@
 </template>
 
 <script lang="ts" setup>
-import MainLayout from '@/layouts/MainLayout.vue';
 import { useUserStore } from '@/stores/userStore';
+import MainLayout from '@/layouts/MainLayout.vue';
 
 const userStore = useUserStore();
 const user = useSupabaseUser();
 
-const orders = ref(null);
+const orders = ref<any>(null);
 
 onBeforeMount(async () => {
-	orders.value = await useFetch(`/api/prisma/get-all-orders-by-user/${user.value.id}`);
+	orders.value = await useFetch(`/api/prisma/get-all-orders-by-user/${user.value?.id}`);
 });
 
 onMounted(() => {

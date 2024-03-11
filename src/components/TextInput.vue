@@ -5,42 +5,36 @@
 				v-model="inputComputed"
 				:placeholder="placeholder"
 				:maxlength="max"
-				class="
-                    w-full
-                    bg-white
-                    text-gray-800
-                    border
-                    text-sm
-                    border-[#EFF0EB]
-                    rounded-lg
-                    p-3
-                    placeholder-gray-500
-                    focus:outline-none
-                "
-				:class="
-                    {'border-gray-900': isFocused},
-                    {'border-red-500': error}
-                "
+				class="w-full rounded-lg border border-[#EFF0EB] bg-white p-3 text-sm text-gray-800 placeholder-gray-500 focus:outline-none"
+				:class="`${isFocused && 'border-gray-900'} ${error && 'border-red-500'}`"
 				:type="inputType"
 				autocomplete="off"
 				@focus="isFocused = true"
 				@blur="isFocused = false"
-			>
+			/>
 		</client-only>
-		<span v-if="error" class="text-red-500 text-[14px] font-semibold">
-            {{ error }}
-        </span>
+		<span v-if="error" class="text-[14px] font-semibold text-red-500">
+			{{ error }}
+		</span>
 	</div>
-
 </template>
 
-<script lang='ts' setup>
-const emit = defineEmits(['update:input'])
-const props = defineProps(['input', 'placeholder', 'max', 'inputType', 'error'])
-const { input, placeholder, max, inputType, error } = toRefs(props)
-const isFocused = ref(false)
+<script lang="ts" setup>
+type Props = {
+	input: string;
+	placeholder: string;
+	max: number;
+	inputType: string;
+	error: string;
+};
+
+const props = defineProps<Props>();
+const emit = defineEmits(['update:input']);
+
+const { input, placeholder, max, inputType, error } = toRefs(props);
+const isFocused = ref<boolean>(false);
 const inputComputed = computed({
-	get: () => input.value,
-	set: (val) => emit('update:input', val)
-})
+	get: () => input?.value,
+	set: val => emit('update:input', val)
+});
 </script>

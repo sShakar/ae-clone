@@ -99,8 +99,8 @@
 </template>
 
 <script lang="ts" setup>
-import MainLayout from '@/layouts/MainLayout.vue';
 import { useUserStore } from '@/stores/userStore';
+import MainLayout from '@/layouts/MainLayout.vue';
 
 const userStore = useUserStore();
 
@@ -216,17 +216,17 @@ const pay = async () => {
 	}
 };
 
-const createOrder = async stripeId => {
+const createOrder = async (stripeId: number) => {
 	await useFetch('/api/prisma/create-order', {
 		method: 'POST',
 		body: {
-			userId: user.value.id,
+			userId: user.value?.id,
 			stripeId: stripeId,
-			name: currentAddress.value.data.name,
-			address: currentAddress.value.data.address,
-			zipcode: currentAddress.value.data.zipcode,
-			city: currentAddress.value.data.city,
-			country: currentAddress.value.data.country,
+			name: currentAddress.value?.data.name,
+			address: currentAddress.value?.data.address,
+			zipcode: currentAddress.value?.data.zipcode,
+			city: currentAddress.value?.data.city,
+			country: currentAddress.value?.data.country,
 			products: userStore.checkout
 		}
 	});

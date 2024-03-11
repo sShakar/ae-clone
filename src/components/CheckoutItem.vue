@@ -1,6 +1,6 @@
 <template>
 	<div class="my-2 flex justify-start">
-		<img class="w-[90px] rounded-md md:w-[150px]" :src="product.url" />
+		<img class="w-[90px] rounded-md md:w-[150px]" :src="product.url" alt="" />
 
 		<div class="overflow-hidden pl-2">
 			<div class="flex items-center">
@@ -18,6 +18,13 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps(['product']);
+type Props = {
+	product: {
+		url: string;
+		title: string;
+		price: number;
+	};
+};
+const props = defineProps<Props>();
 const { product } = toRefs(props);
 </script>
