@@ -14,6 +14,11 @@
 import { useUserStore } from '@/stores/userStore';
 const userStore = useUserStore();
 
+useHead({
+	title: 'AliExpress',
+	meta: [{ name: 'description', content: 'This is a clone of AliExpress.' }]
+});
+
 const route = useRoute();
 
 const windowWidth = ref(process.client ? window.innerWidth : '');
