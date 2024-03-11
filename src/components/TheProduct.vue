@@ -4,7 +4,7 @@
 		class="inline-block cursor-pointer rounded bg-white hover:shadow-[0_0_10px_3px_rgba(0,0,0,0.15)]"
 	>
 		<NuxtLink :to="`/item/${product.id}`">
-			<img class="rounded-t" :src="product.url" />
+			<img class="rounded-t" :src="product.url" alt="" />
 
 			<div id="ProductDetails">
 				<span class="flex items-center justify-start gap-3 px-1 pt-1">
@@ -36,15 +36,24 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps(['product']);
+type Props = {
+	product: {
+		id: number;
+		title: string;
+		url: string;
+		price: number;
+	};
+};
+
+const props = defineProps<Props>();
 const { product } = toRefs(props);
 
 const priceComputed = computed(() => {
-	return product.value.price / 100;
+	return product?.value.price / 100;
 });
 
 const oldPriceComputed = computed(() => {
-	const res = (product.value.price + product.value.price / 20) / 100;
+	const res = (product?.value.price + product?.value.price / 20) / 100;
 	return res.toFixed(2);
 });
 </script>

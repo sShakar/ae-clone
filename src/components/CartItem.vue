@@ -16,7 +16,7 @@
 			</div>
 		</div>
 
-		<img class="w-[90px] rounded-md md:w-[150px]" :src="product.url" />
+		<img class="w-[90px] rounded-md md:w-[150px]" :src="product.url" alt="" />
 
 		<div class="w-full overflow-hidden pl-2">
 			<div class="flex w-full items-center justify-between">
@@ -52,8 +52,18 @@
 import { useUserStore } from '@/stores/userStore';
 const userStore = useUserStore();
 
-const props = defineProps(['product', 'selectedArray']);
-const { product, selectedArray } = toRefs(props);
+type Props = {
+	product: {
+		id: number;
+		title: string;
+		url: string;
+		price: number;
+	};
+	selectedArray: [];
+};
+
+const props = defineProps<Props>();
+const { product } = toRefs(props);
 
 const emit = defineEmits(['selectedRadio']);
 

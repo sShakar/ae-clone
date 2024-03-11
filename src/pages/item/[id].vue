@@ -5,12 +5,13 @@
 				<div class="md:w-[40%]">
 					<img v-if="currentImage" class="object-fit rounded-lg" :src="currentImage" />
 					<div v-if="images[0] !== ''" class="mt-2 flex items-center justify-center">
-						<div v-for="image in images">
+						<div v-for="image in images" :key="image">
 							<img
 								width="70"
 								class="object-fit cursor-pointer rounded-md border-[3px]"
 								:class="currentImage === image ? 'border-[#FF5353]' : ''"
 								:src="image"
+								alt=""
 								@mouseover="currentImage = image"
 								@click="currentImage = image"
 							/>
@@ -73,8 +74,8 @@ import { useUserStore } from '@/stores/userStore';
 const route = useRoute();
 const userStore = useUserStore();
 
-const product = ref(null);
-const currentImage = ref(null);
+const product = ref<any>(null);
+const currentImage = ref<any>(null);
 
 onBeforeMount(async () => {
 	product.value = await useFetch(`/api/prisma/get-product-by-id/${route.params.id}`);

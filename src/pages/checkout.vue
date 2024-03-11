@@ -46,7 +46,7 @@
 					</div>
 
 					<div id="Items" class="mt-4 rounded-lg bg-white p-4">
-						<div v-for="product in userStore.checkout">
+						<div v-for="product in userStore.checkout" :key="product.id">
 							<CheckoutItem :product="product" />
 						</div>
 					</div>
@@ -109,13 +109,12 @@ const route = useRoute();
 
 definePageMeta({ middleware: 'auth' });
 
-let stripe = null;
+let stripe: any = null;
 let elements = null;
-let card = null;
-const form = null;
+let card: any = null;
 const total = ref(0);
-let clientSecret = null;
-const currentAddress = ref(null);
+let clientSecret: any = null;
+const currentAddress = ref<any>(null);
 const isProcessing = ref(false);
 
 onBeforeMount(async () => {
@@ -232,8 +231,8 @@ const createOrder = async (stripeId: number) => {
 	});
 };
 
-const showError = errorMsgText => {
-	const errorMsg = document.querySelector('#card-error');
+const showError = (errorMsgText: string) => {
+	const errorMsg = document.querySelector('#card-error') as HTMLElement;
 
 	errorMsg.textContent = errorMsgText;
 	setTimeout(() => {
