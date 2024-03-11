@@ -5,7 +5,7 @@
 				<div class="text-bold mb-2 text-xl">Address Details</div>
 				<form @submit.prevent="submit()">
 					<TextInput
-						v-model:input="contactName"
+						v-model:input="newAddress.contactName"
 						class="w-full"
 						placeholder="Contact Name"
 						input-type="text"
@@ -13,7 +13,7 @@
 					/>
 
 					<TextInput
-						v-model:input="address"
+						v-model:input="newAddress.address"
 						class="mt-2 w-full"
 						placeholder="Address"
 						input-type="text"
@@ -21,7 +21,7 @@
 					/>
 
 					<TextInput
-						v-model:input="zipCode"
+						v-model:input="newAddress.zipCode"
 						class="mt-2 w-full"
 						placeholder="Zip Code"
 						input-type="text"
@@ -29,7 +29,7 @@
 					/>
 
 					<TextInput
-						v-model:input="city"
+						v-model:input="newAddress.city"
 						class="mt-2 w-full"
 						placeholder="City"
 						input-type="text"
@@ -37,7 +37,7 @@
 					/>
 
 					<TextInput
-						v-model:input="country"
+						v-model:input="newAddress.country"
 						class="mt-2 w-full"
 						placeholder="Country"
 						input-type="text"
@@ -59,33 +59,30 @@
 </template>
 
 <script lang="ts" setup>
-import MainLayout from '@/layouts/MainLayout.vue';
 import { useUserStore } from '@/stores/userStore';
+import MainLayout from '@/layouts/MainLayout.vue';
 
-const userStore = useUserStore();
 const user = useSupabaseUser();
+const userStore = useUserStore();
 
-const contactName = ref(null);
-const address = ref(null);
-const zipCode = ref(null);
-const city = ref(null);
-const country = ref(null);
+const newAddress = ref({
+	contactName: '',
+	address: '',
+	zipCode: '',
+	city: '',
+	country: ''
+});
 
-const currentAddress = ref(null);
-const isUpdate = ref(false);
-const isWorking = ref(false);
-const error = ref(null);
+const currentAddress = ref<any>();
+const isUpdate = ref<boolean>(false);
+const isWorking = ref<boolean>(false);
+const error = ref<any>(null);
 
 watchEffect(async () => {
-	currentAddress.value = await useFetch(`/api/prisma/get-address-by-user/${user.value.id}`);
+	currentAddress.value = await useFetch(`/api/prisma/get-address-by-user/${user.value?.id}`);
 
 	if (currentAddress.value.data) {
-		contactName.value = currentAddress.value.data.name;
-		address.value = currentAddress.value.data.address;
-		zipCode.value = currentAddress.value.data.zipcode;
-		city.value = currentAddress.value.data.city;
-		country.value = currentAddress.value.data.country;
-
+		newAddress.value = currentAddress.value.data;
 		isUpdate.value = true;
 	}
 
@@ -96,27 +93,27 @@ const submit = async () => {
 	isWorking.value = true;
 	error.value = null;
 
-	if (!contactName.value) {
+	if (!newAddress.value.contactName) {
 		error.value = {
 			type: 'contactName',
 			message: 'A contact name is required'
 		};
-	} else if (!address.value) {
+	} else if (!newAddress.value.address) {
 		error.value = {
 			type: 'address',
 			message: 'An address is required'
 		};
-	} else if (!zipCode.value) {
+	} else if (!newAddress.value.zipCode) {
 		error.value = {
 			type: 'zipCode',
 			message: 'A zip code is required'
 		};
-	} else if (!city.value) {
+	} else if (!newAddress.value.city) {
 		error.value = {
 			type: 'city',
 			message: 'A city is required'
 		};
-	} else if (!country.value) {
+	} else if (!newAddress.value.country) {
 		error.value = {
 			type: 'country',
 			message: 'A country is required'
@@ -132,12 +129,9 @@ const submit = async () => {
 		await useFetch(`/api/prisma/update-address/${currentAddress.value.data.id}`, {
 			method: 'PATCH',
 			body: {
-				userId: user.value.id,
-				name: contactName.value,
-				address: address.value,
-				zipCode: zipCode.value,
-				city: city.value,
-				country: country.value
+				...newAddress.value,
+				userId: user.value?.id,
+				name: newAddress.value.contactName
 			}
 		});
 
@@ -149,12 +143,9 @@ const submit = async () => {
 	await useFetch(`/api/prisma/add-address/`, {
 		method: 'POST',
 		body: {
-			userId: user.value.id,
-			name: contactName.value,
-			address: address.value,
-			zipCode: zipCode.value,
-			city: city.value,
-			country: country.value
+			...newAddress.value,
+			userId: user.value?.id,
+			name: newAddress.value.contactName
 		}
 	});
 
